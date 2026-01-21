@@ -1,0 +1,28 @@
+{
+    "name": "sound-bakery",
+    "version": "1.0.0",
+    "description": "Tiny (<1KB) browser-based sound effects library for modern web apps",
+    "source": "src/index.js",
+    "main": "dist/sound-bakery.js",
+    "module": "dist/sound-bakery.module.js",
+    "unpkg": "dist/sound-bakery.umd.js",
+    "scripts": {
+        "build": "microbundle",
+        "dev": "microbundle watch"
+    },
+    "keywords": [
+        "web audio",
+        "sound",
+        "synthesis",
+        "tiny"
+    ],
+    "files": [
+        "dist",
+        "src"
+    ],
+    "author": "Nitinkumar Gove",
+    "license": "MIT",
+    "devDependencies": {
+        "microbundle": "^0.15.1"
+    }
+}

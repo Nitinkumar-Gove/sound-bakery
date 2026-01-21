@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍞</text></svg>">
+    <title>Sound Bakery Demo</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            text-align: center;
+            padding: 2rem;
+            background: #111;
+            color: #eee;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .subtitle {
+            color: #aaa;
+            margin-bottom: 2rem;
+        }
+
+        /* Shared panel styling */
+        .panel {
+            background: #222;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            margin-bottom: 2rem;
+            text-align: left;
+            border: 1px solid #333;
+        }
+
+        .panel h2 {
+            margin-top: 0;
+            font-size: 1.25rem;
+            color: #fff;
+            border-bottom: 1px solid #333;
+            padding-bottom: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .code-block {
+            background: #000;
+            padding: 1rem;
+            border-radius: 6px;
+            font-family: monospace;
+            margin-bottom: 1rem;
+            position: relative;
+            overflow-x: auto;
+            color: #a5d6ff;
+            border: 1px solid #333;
+        }
+
+        .copy-btn {
+            position: absolute;
+            right: 0.5rem;
+            top: 0.5rem;
+            font-size: 0.8rem;
+            padding: 0.3rem 0.6rem;
+            background: #333;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .copy-btn:hover {
+            background: #444;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 1rem;
+        }
+
+        button {
+            padding: 1rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border: 1px solid #333;
+            background: #2a2a2a;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.1s;
+            color: #eee;
+            text-align: center;
+        }
+
+        button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+            border-color: #555;
+            background: #333;
+        }
+
+        button:active {
+            transform: translateY(0);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            background: #1a1a1a;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🍞 Sound Bakery</h1>
+        <p class="subtitle">Tiny (<1KB) browser-based sound synthesis library.</p>
+
+                <div class="panel">
+                    <h2>How to use</h2>
+                    <div class="code-block">
+                        <code>npm install sound-bakery</code>
+                        <button class="copy-btn"
+                            onclick="copyToClipboard('npm install sound-bakery', this)">Copy</button>
+                    </div>
+                    <p style="color: #ccc; margin-bottom: 0.5rem; font-size: 0.95rem;">Import sounds using their
+                        uppercase names:</p>
+                    <div class="code-block">
+                        <pre>import { play, CLICK } from 'sound-bakery';
+
+// Play a sound using the constant
+play(CLICK);</pre>
+                        <button class="copy-btn"
+                            onclick="copyToClipboard(`import { play, CLICK } from 'sound-bakery';\n\n// Play a sound using the constant\nplay(CLICK);`, this)">Copy</button>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <h2>Supported sound effects <span id="sound-count"
+                            style="font-weight: normal; font-size: 0.9em; opacity: 0.7; margin-left: 0.5rem">(0)</span>
+                    </h2>
+                    <div id="app" class="grid"></div>
+                </div>
+    </div>
+
+    <!-- Load the library -->
+    <script type="module">
+        import { play, presets } from '../dist/sound-bakery.module.js';
+
+        const app = document.getElementById('app');
+        const countSpan = document.getElementById('sound-count');
+
+        const soundNames = Object.keys(presets);
+        countSpan.textContent = `(${soundNames.length})`;
+
+        // Visualized Buttons
+        soundNames.forEach(name => {
+            const btn = document.createElement('button');
+            // Show uppercase to match the exported constant
+            btn.textContent = name.toUpperCase();
+            btn.onclick = () => {
+                play(name);
+                // Visual feedback
+                btn.style.transform = 'scale(0.95)';
+                setTimeout(() => btn.style.transform = '', 100);
+            };
+            app.appendChild(btn);
+        });
+
+        window.copyToClipboard = (text, btn) => {
+            navigator.clipboard.writeText(text);
+            const originalText = btn.textContent;
+            btn.textContent = 'Copied!';
+            setTimeout(() => btn.textContent = originalText, 2000);
+        };
+    </script>
+</body>
+
+</html>
