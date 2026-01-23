@@ -7,7 +7,7 @@
     "module": "dist/sound-bakery.module.js",
     "unpkg": "dist/sound-bakery.umd.js",
     "scripts": {
-        "build": "microbundle && mkdir -p docs/dist && cp dist/sound-bakery.module.js docs/dist/",
+        "build": "microbundle && cp dist/sound-bakery.module.js docs/sound-bakery.js",
         "dev": "microbundle watch"
     },
     "keywords": [
